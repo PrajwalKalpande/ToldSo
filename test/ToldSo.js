@@ -9,8 +9,8 @@ describe ('ToldSo',function(){
 
   async function deployFixture(){
     const[owner] = await ethers.getSigners()
-    const TolSo = await ethers.getContractFactory('ToldSo')
-    const toldSo = await ToldSo.deploy()
+    const ToldSo = await ethers.getContractFactory('ToldSo')
+    const toldSo = await ToldSo.deploy();
     await toldSo.deployed()
     return {owner,toldSo}
   }
@@ -19,8 +19,12 @@ describe ('ToldSo',function(){
       const {toldSo} = await loadFixture(deployFixture)
       const title = "Hi THer"
       const body = "My firsat post "
-      await toldSo.createPost(title,body)
-      const posts = await toldSo.getPostsByAuthor()
+      const [owner,alice,bob] = await ethers.getSigners()
+     
+      console.log(alice) 
+      
+      await toldSo.connect(alice).createPost(title,body)
+     const posts =  await toldSo.getPosts(alice.address)
       
     })
   })
